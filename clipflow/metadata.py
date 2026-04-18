@@ -18,3 +18,24 @@ def write_post_metadata(folder: Path, records: list) -> None:
     with open(path, "w", encoding="utf-8") as f:
         for record in records:
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
+
+
+def update_post_metadata(
+    folder: Path, file: str, yt_id: str | None, tt_id: str | None
+) -> None:
+    records = read_post_metadata(folder)
+    for record in records:
+        if record["file"] != file:
+            continue
+        if yt_id:
+            record["yt_id"] = yt_id
+        if tt_id:
+            record["tt_id"] = tt_id
+        has_yt = bool(record.get("yt_id"))
+        has_tt = bool(record.get("tt_id"))
+        if has_yt and has_tt:
+            record["status"] = "posted"
+        elif has_yt or has_tt:
+            record["status"] = "partial"
+        break
+    write_post_metadata(folder, records)
