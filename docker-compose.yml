@@ -1,0 +1,7 @@
+services:
+  clipflow:
+    build: .
+    env_file: .env
+    volumes:
+      - ${PENDING_DIR}:/data/pending
+      - ./secrets:/secrets:ro
