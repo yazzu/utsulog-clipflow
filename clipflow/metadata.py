@@ -27,9 +27,9 @@ def update_post_metadata(
     for record in records:
         if record["file"] != file:
             continue
-        if yt_id:
+        if yt_id is not None:
             record["yt_id"] = yt_id
-        if tt_id:
+        if tt_id is not None:
             record["tt_id"] = tt_id
         has_yt = bool(record.get("yt_id"))
         has_tt = bool(record.get("tt_id"))
