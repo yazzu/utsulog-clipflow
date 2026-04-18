@@ -114,3 +114,73 @@ def test_update_post_metadata_only_updates_target_file(tmp_path):
     update_post_metadata(tmp_path, "highlight_001_ja.mp4", yt_id="YT123", tt_id="TT456")
     result = read_post_metadata(tmp_path)
     assert result[1]["status"] == "pending"
+
+
+from clipflow.metadata import update_ab_metadata
+
+
+def _write_ab_metadata(folder: Path, records: list) -> None:
+    path = folder / "ab_metadata.ndjson"
+    with open(path, "w", encoding="utf-8") as f:
+        for r in records:
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+
+
+def _read_ab_metadata(folder: Path) -> list:
+    path = folder / "ab_metadata.ndjson"
+    records = []
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                records.append(json.loads(line))
+    return records
+
+
+def test_update_ab_metadata_adds_yt_id(tmp_path):
+    _write_ab_metadata(tmp_path, [
+        {"highlight_id": "highlight_001", "language": "ja", "video_id": None, "yt_id": None, "tt_id": None},
+    ])
+    update_ab_metadata(tmp_path, "highlight_001", "jp", yt_id="YT123", tt_id=None)
+    result = _read_ab_metadata(tmp_path)
+    assert result[0]["yt_id"] == "YT123"
+    assert result[0]["tt_id"] is None
+
+
+def test_update_ab_metadata_adds_tt_id(tmp_path):
+    _write_ab_metadata(tmp_path, [
+        {"highlight_id": "highlight_001", "language": "ja", "video_id": None, "yt_id": None, "tt_id": None},
+    ])
+    update_ab_metadata(tmp_path, "highlight_001", "jp", yt_id=None, tt_id="TT456")
+    result = _read_ab_metadata(tmp_path)
+    assert result[0]["tt_id"] == "TT456"
+
+
+def test_update_ab_metadata_maps_jp_to_ja(tmp_path):
+    _write_ab_metadata(tmp_path, [
+        {"highlight_id": "highlight_001", "language": "ja", "video_id": None, "yt_id": None, "tt_id": None},
+        {"highlight_id": "highlight_001", "language": "en", "video_id": None, "yt_id": None, "tt_id": None},
+    ])
+    update_ab_metadata(tmp_path, "highlight_001", "jp", yt_id="YT123", tt_id=None)
+    result = _read_ab_metadata(tmp_path)
+    assert result[0]["yt_id"] == "YT123"   # language="ja" のレコードが更新される
+    assert result[1]["yt_id"] is None       # language="en" は変更なし
+
+
+def test_update_ab_metadata_en_lang(tmp_path):
+    _write_ab_metadata(tmp_path, [
+        {"highlight_id": "highlight_001", "language": "en", "video_id": None, "yt_id": None, "tt_id": None},
+    ])
+    update_ab_metadata(tmp_path, "highlight_001", "en", yt_id="YT999", tt_id="TT888")
+    result = _read_ab_metadata(tmp_path)
+    assert result[0]["yt_id"] == "YT999"
+    assert result[0]["tt_id"] == "TT888"
+
+
+def test_update_ab_metadata_does_not_overwrite_existing_video_id(tmp_path):
+    _write_ab_metadata(tmp_path, [
+        {"highlight_id": "highlight_001", "language": "ja", "video_id": "ORIGINAL", "yt_id": None, "tt_id": None},
+    ])
+    update_ab_metadata(tmp_path, "highlight_001", "jp", yt_id="YT123", tt_id=None)
+    result = _read_ab_metadata(tmp_path)
+    assert result[0]["video_id"] == "ORIGINAL"  # 既存フィールドは変更しない

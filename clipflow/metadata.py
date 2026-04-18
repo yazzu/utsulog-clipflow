@@ -39,3 +39,35 @@ def update_post_metadata(
             record["status"] = "partial"
         break
     write_post_metadata(folder, records)
+
+
+_LANG_MAP = {"jp": "ja"}
+
+
+def update_ab_metadata(
+    folder: Path,
+    highlight_id: str,
+    lang: str,
+    yt_id: str | None,
+    tt_id: str | None,
+) -> None:
+    ab_lang = _LANG_MAP.get(lang, lang)
+    path = folder / "ab_metadata.ndjson"
+    records = []
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                records.append(json.loads(line))
+
+    for record in records:
+        if record["highlight_id"] == highlight_id and record["language"] == ab_lang:
+            if yt_id is not None:
+                record["yt_id"] = yt_id
+            if tt_id is not None:
+                record["tt_id"] = tt_id
+            break
+
+    with open(path, "w", encoding="utf-8") as f:
+        for record in records:
+            f.write(json.dumps(record, ensure_ascii=False) + "\n")
