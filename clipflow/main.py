@@ -58,7 +58,10 @@ def run(lang: str) -> None:
     if yt_id or tt_id:
         stem = Path(record["file"]).stem          # "highlight_001_ja"
         highlight_id = "_".join(stem.split("_")[:-1])  # "highlight_001"
-        metadata.update_ab_metadata(folder, highlight_id, lang, yt_id, tt_id)
+        try:
+            metadata.update_ab_metadata(folder, highlight_id, lang, yt_id, tt_id)
+        except Exception as e:
+            logger.warning("ab_metadata update failed: %s", e)
 
     if yt_id and tt_id:
         try:

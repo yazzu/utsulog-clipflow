@@ -16,7 +16,7 @@ def get_oldest_folder(pending_dir: str) -> Path | None:
 def get_next_file(folder: Path, lang: str) -> dict | None:
     metadata_path = folder / "post_metadata.ndjson"
     records = []
-    with open(metadata_path) as f:
+    with open(metadata_path, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if line:

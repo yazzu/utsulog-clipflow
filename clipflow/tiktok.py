@@ -36,14 +36,12 @@ def upload(file_path: Path, record: dict) -> str:
     publish_id = data["publish_id"]
     upload_url = data["upload_url"]
 
-    with open(file_path, "rb") as f:
-        video_data = f.read()
-
     upload_headers = {
         "Content-Range": f"bytes 0-{file_size - 1}/{file_size}",
         "Content-Type": "video/mp4",
     }
-    upload_resp = requests.put(upload_url, data=video_data, headers=upload_headers, timeout=120)
+    with open(file_path, "rb") as f:
+        upload_resp = requests.put(upload_url, data=f, headers=upload_headers, timeout=120)
     upload_resp.raise_for_status()
 
     return publish_id

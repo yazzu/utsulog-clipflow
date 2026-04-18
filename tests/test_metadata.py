@@ -3,7 +3,7 @@ import pytest
 from pathlib import Path
 from clipflow.metadata import read_post_metadata, write_post_metadata
 
-FIXTURE_FOLDER = Path("tests/fixtures/20260412_2233_3hqPAjxCLDs")
+FIXTURE_FOLDER = Path(__file__).parent / "fixtures" / "20260412_2233_3hqPAjxCLDs"
 
 
 def test_read_post_metadata_returns_all_records():
