@@ -1,4 +1,5 @@
 .env
+secrets/
 test/
 __pycache__/
 *.pyc
