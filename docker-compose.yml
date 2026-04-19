@@ -2,6 +2,8 @@ services:
   clipflow:
     build: .
     env_file: .env
+    environment:
+      - PYTHONPATH=/app
     volumes:
       - ${PENDING_DIR}:/data/pending
       - ./secrets:/secrets:ro

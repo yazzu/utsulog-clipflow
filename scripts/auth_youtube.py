@@ -47,3 +47,12 @@ def parse_args(argv=None) -> argparse.Namespace:
         help="token.pickle の出力先",
     )
     return parser.parse_args(argv)
+
+
+def main() -> None:
+    args = parse_args()
+    run_auth(secrets_path=args.secrets, token_out=args.token_out)
+
+
+if __name__ == "__main__":
+    main()
