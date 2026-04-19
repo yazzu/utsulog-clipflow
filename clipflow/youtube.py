@@ -8,13 +8,17 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
 
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
-TOKEN_PATH = Path("/secrets/token.pickle")
+TOKEN_PATHS = {
+    "jp": Path("/secrets/token_jp.pickle"),
+    "en": Path("/secrets/token_en.pickle"),
+}
 
 
-def _get_credentials():
+def _get_credentials(lang: str):
+    token_path = TOKEN_PATHS[lang]
     creds = None
-    if TOKEN_PATH.exists():
-        with open(TOKEN_PATH, "rb") as f:
+    if token_path.exists():
+        with open(token_path, "rb") as f:
             creds = pickle.load(f)
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -24,13 +28,13 @@ def _get_credentials():
                 os.environ["YOUTUBE_CLIENT_SECRETS_FILE"], SCOPES
             )
             creds = flow.run_local_server(port=0)
-        with open(TOKEN_PATH, "wb") as f:
+        with open(token_path, "wb") as f:
             pickle.dump(creds, f)
     return creds
 
 
-def upload(file_path: Path, record: dict) -> str:
-    creds = _get_credentials()
+def upload(file_path: Path, record: dict, lang: str) -> str:
+    creds = _get_credentials(lang)
     youtube = build("youtube", "v3", credentials=creds)
 
     body = {

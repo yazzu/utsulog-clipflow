@@ -39,7 +39,7 @@ def run(lang: str) -> None:
 
     if not yt_id:
         try:
-            yt_id = youtube.upload(file_path, record)
+            yt_id = youtube.upload(file_path, record, lang)
             logger.info("YouTube upload success: %s", yt_id)
         except Exception as e:
             logger.error("YouTube upload failed: %s", e)
