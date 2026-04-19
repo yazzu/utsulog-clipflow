@@ -3,7 +3,6 @@ import pickle
 import sys
 import types
 from pathlib import Path
-from unittest.mock import MagicMock
 
 import pytest
 
