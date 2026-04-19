@@ -7,11 +7,6 @@
 - 実行コマンド: `docker compose run --rm clipflow python -m clipflow.main --lang jp`
 - `docker-compose.yml` に `command` が未定義のため、timer から起動する際にコマンドを明示する必要がある
 
-### YouTube 初回認証手順
-- `youtube.py` の `_get_credentials()` は `flow.run_local_server(port=0)` でブラウザ認証を使用する
-- Docker コンテナ内ではブラウザが起動しないため、**初回認証はコンテナ外（ホスト上）で実施**して `token.pickle` を `/secrets/` に配置する運用が必要
-- 具体的な手順書が未作成
-
 ### TikTok API の動作確認
 - `tiktok.py` で返す `publish_id` を `tt_id` として扱っているが、TikTok API の実仕様で `publish_id` が永続的な動画識別子として使えるか未確認
 - アップロード完了後のステータス確認 API（`/v2/post/publish/status/fetch/`）の呼び出しが未実装
