@@ -1,6 +1,7 @@
 # tests/test_auth_youtube.py
 import pickle
 import sys
+import types
 from pathlib import Path
 from unittest.mock import MagicMock
 
@@ -17,9 +18,7 @@ def test_check_existing_token_missing(tmp_path):
 
 def test_check_existing_token_invalid(tmp_path):
     token_path = tmp_path / "token.pickle"
-    creds = MagicMock()
-    creds.valid = False
-    creds.expired = False
+    creds = types.SimpleNamespace(valid=False)
     with open(token_path, "wb") as f:
         pickle.dump(creds, f)
     assert auth_youtube.check_existing_token(token_path) is False
@@ -27,8 +26,7 @@ def test_check_existing_token_invalid(tmp_path):
 
 def test_check_existing_token_valid(tmp_path):
     token_path = tmp_path / "token.pickle"
-    creds = MagicMock()
-    creds.valid = True
+    creds = types.SimpleNamespace(valid=True)
     with open(token_path, "wb") as f:
         pickle.dump(creds, f)
     assert auth_youtube.check_existing_token(token_path) is True
