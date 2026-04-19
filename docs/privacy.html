@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy – utsulog-clipflow</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      max-width: 760px;
+      margin: 48px auto;
+      padding: 0 24px;
+      color: #222;
+      line-height: 1.7;
+    }
+    h1 { font-size: 1.6rem; border-bottom: 1px solid #ddd; padding-bottom: 8px; }
+    h2 { font-size: 1.1rem; margin-top: 2rem; }
+    p, li { font-size: 0.97rem; }
+    ul { padding-left: 1.4em; }
+    footer { margin-top: 3rem; font-size: 0.85rem; color: #888; }
+  </style>
+</head>
+<body>
+
+<h1>Privacy Policy</h1>
+<p><strong>utsulog-clipflow</strong> &nbsp;|&nbsp; Last updated: 2026-04-19</p>
+
+<h2>1. Overview</h2>
+<p>
+  utsulog-clipflow is a personal automation tool that uploads video clips to YouTube
+  using the YouTube Data API v3. It runs locally on the operator's server and is not
+  distributed to or used by the general public.
+</p>
+
+<h2>2. Data Collected</h2>
+<ul>
+  <li>
+    <strong>OAuth credentials</strong> – An access token and refresh token issued by
+    Google are stored locally as <code>token.pickle</code> on the operator's server.
+    These credentials are never transmitted to any third party.
+  </li>
+  <li>
+    <strong>Video metadata</strong> – Titles, descriptions, and tags provided by the
+    operator are sent to the YouTube Data API solely for the purpose of uploading videos.
+  </li>
+</ul>
+
+<h2>3. Data Not Collected</h2>
+<p>
+  This application does not collect, store, or transmit any personal information about
+  end users. It does not use analytics, advertising, or tracking services.
+</p>
+
+<h2>4. Use of YouTube Data API</h2>
+<p>
+  utsulog-clipflow uses the YouTube Data API v3 with the
+  <code>https://www.googleapis.com/auth/youtube.upload</code> scope to upload videos
+  to the operator's own YouTube channel. No other YouTube data is accessed or stored.
+</p>
+<p>
+  Google's privacy policy applies to all data processed through the YouTube Data API:
+  <a href="https://policies.google.com/privacy" target="_blank">https://policies.google.com/privacy</a>
+</p>
+<p>
+  You can revoke this application's access to your Google account at any time at:
+  <a href="https://myaccount.google.com/permissions" target="_blank">https://myaccount.google.com/permissions</a>
+</p>
+
+<h2>5. Data Sharing</h2>
+<p>
+  No data is shared with third parties. All credentials and video files remain on the
+  operator's local server.
+</p>
+
+<h2>6. Data Retention</h2>
+<p>
+  OAuth credentials (<code>token.pickle</code>) are retained until manually deleted
+  by the operator or revoked via Google Account settings. Uploaded video files are
+  deleted from local storage after a successful backup to the operator's cloud storage.
+</p>
+
+<h2>7. Contact</h2>
+<p>
+  For questions about this privacy policy, please open an issue at:<br>
+  <a href="https://github.com/yazzu/utsulog-clipflow/issues" target="_blank">
+    https://github.com/yazzu/utsulog-clipflow/issues
+  </a>
+</p>
+
+<footer>
+  &copy; 2026 yazzu &nbsp;|&nbsp;
+  <a href="https://github.com/yazzu/utsulog-clipflow">GitHub</a>
+</footer>
+
+</body>
+</html>
