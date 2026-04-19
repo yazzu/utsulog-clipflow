@@ -4,6 +4,7 @@ services:
     env_file: .env
     environment:
       - PYTHONPATH=/app
+      - PENDING_DIR=/data/pending
     volumes:
       - ${PENDING_DIR}:/data/pending
       - ./secrets:/secrets:ro
