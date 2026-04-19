@@ -1,7 +1,5 @@
 # scripts/auth_youtube.py
-import argparse
 import pickle
-import sys
 from pathlib import Path
 
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
